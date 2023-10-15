@@ -41,6 +41,8 @@ Crie uma pasta para armazenar os arquivos e abra um terminal do Git Bash a parti
 
 3. Utilize os arquivos do Postman encontrados na pasta '/Collection' para fazer requisições e interagir com a aplicação.
 
+4. Além disso, no Postman, localize as opções de Environment, presentes no canto superior direito da tela, e selecione a environment "Local".
+
 OBS.: Algumas requisições exigem que o usuário logado seja administrador, por isso é necessário ir até o banco de dados, no MySQL Workbench, alterar a role do usuário desejado de "USER" para "ADMIN" e clicar em "Apply". Após, basta realizar o login pelo usuário administrador, no Postman.
 
 ## 🔧 Ferramentas e documentação
