@@ -1,0 +1,630 @@
+{
+	"info": {
+		"_postman_id": "5eb514f6-48cf-4238-b0ca-7986350a87e5",
+		"name": "Teste CineApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30292165"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Registrar usuários",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function cpf() {\r",
+									"  const rnd = (n) => Math.round(Math.random() * n);\r",
+									"  const mod = (base, div) => Math.round(base - Math.floor(base / div) * div)\r",
+									"  const n = Array(9).fill('').map(() => rnd(9));\r",
+									"\r",
+									"  let d1 = n.reduce((total, number, index) => (total + (number * (10 - index))), 0)\r",
+									"  d1 = 11 - mod(d1, 11);\r",
+									"  if (d1 >= 10) d1 = 0;\r",
+									"  \r",
+									"  let d2 = (d1 * 2) + n.reduce((total, number, index) => (total + (number * (11 - index))), 0)\r",
+									"  d2 = 11 - mod(d2, 11);\r",
+									"  if (d2 >= 10) d2 = 0;\r",
+									"\r",
+									"  return `${n.join('')}${d1}${d2}`\r",
+									"}\r",
+									"\r",
+									"pm.environment.set('cpf', cpf());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"{{$randomFullName}}\",\r\n    \"senha\": \"{{$randomPassword}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"cidade\": \"{{$randomCity}}\",\r\n    \"telefone\": \"{{$randomPhoneNumber}}\",\r\n    \"cpf\": \"{{cpf}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar (admin)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function cpf() {\r",
+									"  const rnd = (n) => Math.round(Math.random() * n);\r",
+									"  const mod = (base, div) => Math.round(base - Math.floor(base / div) * div)\r",
+									"  const n = Array(9).fill('').map(() => rnd(9));\r",
+									"\r",
+									"  let d1 = n.reduce((total, number, index) => (total + (number * (10 - index))), 0)\r",
+									"  d1 = 11 - mod(d1, 11);\r",
+									"  if (d1 >= 10) d1 = 0;\r",
+									"  \r",
+									"  let d2 = (d1 * 2) + n.reduce((total, number, index) => (total + (number * (11 - index))), 0)\r",
+									"  d2 = 11 - mod(d2, 11);\r",
+									"  if (d2 >= 10) d2 = 0;\r",
+									"\r",
+									"  return `${n.join('')}${d1}${d2}`\r",
+									"}\r",
+									"\r",
+									"pm.environment.set('cpf', cpf());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"ADMIN\",\r\n    \"senha\": \"12345678\",\r\n    \"email\": \"teste@upf.br\",\r\n    \"cidade\": \"{{$randomCity}}\",\r\n    \"telefone\": \"{{$randomPhoneNumber}}\",\r\n    \"cpf\": \"{{cpf}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logar usuário",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"if (response && response.login) {\r",
+									"    let tokenValue = response.login;\r",
+									"\r",
+									"    pm.environment.set(\"token\", tokenValue);\r",
+									"    console.log(\"Token recebido e definido na variável de coleção 'token':\", tokenValue);\r",
+									"} else {\r",
+									"    console.error(\"A resposta não contém uma chave 'login' válida.\");\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"teste@upf.br\",\r\n    \"password\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar usuário",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/usuarios/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuarios",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar usuário",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function cpf() {\r",
+									"  const rnd = (n) => Math.round(Math.random() * n);\r",
+									"  const mod = (base, div) => Math.round(base - Math.floor(base / div) * div)\r",
+									"  const n = Array(9).fill('').map(() => rnd(9));\r",
+									"\r",
+									"  let d1 = n.reduce((total, number, index) => (total + (number * (10 - index))), 0)\r",
+									"  d1 = 11 - mod(d1, 11);\r",
+									"  if (d1 >= 10) d1 = 0;\r",
+									"  \r",
+									"  let d2 = (d1 * 2) + n.reduce((total, number, index) => (total + (number * (11 - index))), 0)\r",
+									"  d2 = 11 - mod(d2, 11);\r",
+									"  if (d2 >= 10) d2 = 0;\r",
+									"\r",
+									"  return `${n.join('')}${d1}${d2}`\r",
+									"}\r",
+									"\r",
+									"pm.environment.set('cpf', cpf());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Chico\",\r\n    \"senha\": \"{{$randomPassword}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"cidade\": \"{{$randomCity}}\",\r\n    \"telefone\": \"{{$randomPhoneNumber}}\",\r\n    \"cpf\": \"{{cpf}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/usuarios/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuarios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar usuários",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/usuarios",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sessions",
+			"item": [
+				{
+					"name": "Criar sessão",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filmname\": \"Oppenheimer\",\r\n    \"data\": \"2023-09-15\",\r\n    \"initdata\": \"2023-09-25T00:00:00\",\r\n    \"enddata\": \"2023-10-05T00:00:00\",\r\n    \"description\": \"O Pai da bomba atômica\",\r\n    \"status\": \"ENCERRADO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/sessions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar sessão",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filmname\": \"Barbie\",\r\n    \"data\": \"2023-10-25\",\r\n    \"initdata\": \"2023-10-05T00:00:00\",\r\n    \"enddata\": \"2023-10-26T00:00:00\",\r\n    \"description\": \"A boneca mais famosa do mundo\",\r\n    \"status\": \"ABERTO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/sessions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar sessão",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sessions/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sessions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar sessão",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"filmname\": \"Teste\",\r\n    \"data\": \"2023-09-15\",\r\n    \"initdata\": \"2023-09-25T00:00:00\",\r\n    \"enddata\": \"2023-10-05T00:00:00\",\r\n    \"description\": \"O Pai da bomba atômica\",\r\n    \"status\": \"ENCERRADO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/sessions/3",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sessions",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar sessões",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sessions",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tickets",
+			"item": [
+				{
+					"name": "Criar ticket (inválido)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": \"2023-10-14T16:50:00\",\r\n    \"sessao_id\": \"1\",\r\n    \"usuario_id\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/ticket",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ticket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Criar ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": \"2023-10-14T16:50:00\",\r\n    \"sessao_id\": \"2\",\r\n    \"usuario_id\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/ticket",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ticket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/ticket/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ticket",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver tickets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/ticket",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"ticket"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
