@@ -12,8 +12,6 @@ data class Sessions(
         val id: Long? = null,
         val filmname: String,
         val data: LocalDate,
-        val initdata: LocalDateTime,
-        val enddata: LocalDateTime,
         val description: String,
         @Enumerated(value = EnumType.STRING)
         val status: StatusEvento,

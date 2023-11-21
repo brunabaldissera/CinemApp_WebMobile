@@ -9,8 +9,6 @@ data class SessionResponseDTO(
         val id: Long?,
         val filmname: String,
         val data: LocalDate,
-        val initdata: LocalDateTime,
-        val enddata: LocalDateTime,
         val description : String,
         val status: StatusEvento,
         val inscritos: List<TicketResponseDTO>

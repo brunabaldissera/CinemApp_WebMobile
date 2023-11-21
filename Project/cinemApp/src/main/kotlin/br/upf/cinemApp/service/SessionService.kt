@@ -30,9 +30,6 @@ class SessionService (private val repository: SessionRepository,
         return converter.toSessionResponseDTO(sessao)
     }
     fun register(dto: SessionDTO): SessionResponseDTO{
-        if (dto.enddata <= dto.initdata) {
-            throw SessionDataException("A data final deve ser maior que a data inicial.")
-        }
         return converter.toSessionResponseDTO(
             repository.save(converter.toSession((dto)))
         )
@@ -43,14 +40,9 @@ class SessionService (private val repository: SessionRepository,
             .copy(
                 filmname = dto.filmname,
                 data = dto.data,
-                initdata = dto.initdata,
-                enddata = dto.enddata,
                 description = dto.description,
                 status = dto.status
             )
-            if (dto.enddata <= dto.initdata) {
-                throw SessionDataException("A data final deve ser maior que a data inicial.")
-            }
         return converter.toSessionResponseDTO(repository.save(sessao))
     }
     fun deletar(id: Long) {

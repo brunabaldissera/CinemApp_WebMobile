@@ -13,10 +13,6 @@ data class SessionDTO(
         val filmname: String,
         @field:NotNull (message = "Evento sempre deve ter uma data")
         val data: LocalDate,
-        @field:NotNull (message = "Deve haver uma data de inicio")
-        val initdata: LocalDateTime,
-        @field:NotNull (message = "Deve haver uma data de fim")
-        val enddata: LocalDateTime,
         val description: String,
         val status: StatusEvento
 )

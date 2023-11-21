@@ -14,8 +14,6 @@ class SessionConverter (
         return Sessions(
                 filmname = dto.filmname,
                 data = dto.data,
-                initdata = dto.initdata,
-                enddata = dto.enddata,
                 description = dto.description,
                 status = dto.status,
                 inscritos = listOf()
@@ -27,8 +25,6 @@ class SessionConverter (
                 id = session.id,
                 filmname = session.filmname,
                 data = session.data,
-                initdata = session.initdata,
-                enddata = session.enddata,
                 description = session.description,
                 status = session.status,
                 inscritos = inscritosDTOs
