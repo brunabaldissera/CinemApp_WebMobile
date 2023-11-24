@@ -3,7 +3,6 @@ package br.upf.cinemApp.converters
 import br.upf.cinemApp.dtos.UserDTO
 import br.upf.cinemApp.dtos.UserResponseDTO
 import br.upf.cinemApp.model.User
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 
@@ -15,8 +14,7 @@ class UserConverter {
             nome = user.nome,
             cidade = user.cidade,
             telefone = user.telefone,
-            cpf = user.cpf,
-            email = user.email
+            cpf = user.cpf
         )
     }
     fun toUser(dto: UserDTO): User {
@@ -24,9 +22,7 @@ class UserConverter {
             nome = dto.nome,
             cidade = dto.cidade,
             telefone = dto.telefone,
-            cpf = dto.cpf,
-            email = dto.email,
-            senha = BCryptPasswordEncoder().encode(dto.senha)
+            cpf = dto.cpf
         )
     }
 }

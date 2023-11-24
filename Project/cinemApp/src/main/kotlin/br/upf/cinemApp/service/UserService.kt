@@ -4,7 +4,6 @@ import br.upf.cinemApp.converters.UserConverter
 import br.upf.cinemApp.dtos.UserDTO
 import br.upf.cinemApp.dtos.UserResponseDTO
 import br.upf.cinemApp.repository.UserRepository
-import br.upf.cinemApp.validation.UserValidation
 import org.springframework.stereotype.Service
 
 
@@ -23,9 +22,8 @@ class UserService(
         return converter.toUserResponseDTO(usuario)
     }
     fun register(dto: UserDTO): UserResponseDTO {
-        UserValidation.validate(dto)
         return converter.toUserResponseDTO(
-            repository.save(converter.toUser(dto)))
+                repository.save(converter.toUser(dto)))
     }
     fun update(id: Long, dto: UserDTO): UserResponseDTO {
         val usuario = repository.findById(id)
